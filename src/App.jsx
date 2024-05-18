@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrashCan, faStar } from "@fortawesome/free-solid-svg-icons"
+import { faTrashCan, faStar, faCalendar } from "@fortawesome/free-solid-svg-icons"
 
 import DailyDark from "./assets/daily-dark.svg"
 import DailyLight from "./assets/daily-light.svg"
@@ -51,19 +51,25 @@ const TaskInput = ({ value, inputHandler, submitHandler }) => {
   )
 }
 
-const Navigation = () => {
+const Navigation = ({ searchVal, searchHandler }) => {
   return (
     <>
       <img src={DailyDark} alt="Daily dark mode logo" className="logo" />
+      <input autoComplete="off" type="text" name="search" id="search-input"
+        placeholder="Search" value={searchVal}
+        onChange={searchHandler} />
     </>
   )
 }
 
 const App = () => {
   const [taskName, setTaskName] = useState('')
+  const [filter, setFilter] = useState('')
   const [tasks, setTasks] = useState([])
+  const [darkMode, setDarkMode] = useState(false)
 
   const handleTaskChange = (event) => setTaskName(event.target.value)
+  const handleFilterChange = (event) => setFilter(event.target.value)
 
   const handleCheck = (id) => {
     const index = tasks.findIndex(t => t.id === id)
@@ -110,16 +116,18 @@ const App = () => {
     setTasks(tasks.map(t => t.id === id ? changedTask : t))
   }
 
+  const tasksToShow = tasks.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()))
+
   return (
     <div className="outer-container">
       <div className="nav-container">
-        <Navigation />
+        <Navigation searchVal={filter} searchHandler={handleFilterChange} />
       </div>
       <div className="middle-container">
         <TaskInput value={taskName} inputHandler={handleTaskChange}
           submitHandler={addTask} />
         <h2>Tasks</h2>
-        <TaskList tasks={tasks} checkHandler={handleCheck}
+        <TaskList tasks={tasksToShow} checkHandler={handleCheck}
           removeHandler={removeTask}
           importanceHandler={toggleImportance} />
       </div>

@@ -1,16 +1,15 @@
 :root {
   --primary: #262626;
+  --primary-darker: #141414;
   --secondary: #333333;
   --secondary-bright: #444444;
-  --accent: #2d5bb6;
   --side: #363535;
   --icon-default: #ffffff;
   --star: #e2e201;
   --trash: #ff0000;
   --trash-hold: #da0000;
-
-  --accent-alt: #a3bcc0ff;
-  --accent-alt-darker: #83a0a5ff;
+  --accent: #a3bcc0ff;
+  --accent-darker: #83a0a5ff;
 }
 
 * {
@@ -45,7 +44,7 @@ body {
 }
 
 .middle-container h2 {
-  color: var(--accent-alt);
+  color: var(--accent);
 }
 
 .task-list {
@@ -65,6 +64,7 @@ body {
   font-size: 1.2em;
   border-radius: 10px;
   width: 95%;
+  transition: display 1s ease-in;
 }
 
 .task-container * {
@@ -92,7 +92,7 @@ body {
 }
 
 .star-icon:hover {
-  color: var(--accent-alt-darker);
+  color: var(--accent-darker);
   cursor: pointer;
 }
 
@@ -123,7 +123,8 @@ body {
   font-size: 1.2rem;
   outline: none;
   background-color: var(--secondary);
-  color: white;
+  color: #ffffff;
+  caret-color: var(--accent);
 }
 
 #task-input:hover, #task-input:focus {
@@ -131,8 +132,28 @@ body {
 }
 
 #task-input::placeholder {
-  color: var(--accent-alt);
-  font-weight: 100;
+  color: var(--accent);
+}
+
+#search-input {
+  width: 80%;
+  padding: 10px;
+  margin-left: 8%;
+  border-radius: 5px;
+  border: 1px solid var(--side);
+  font-size: 0.9em;
+  outline: none;
+  background-color: var(--primary);
+  color: #ffffff;
+  caret-color: var(--accent);
+}
+
+#search-input:hover, #search-input:focus {
+  background-color: var(--primary-darker);
+}
+
+#search-input::placeholder {
+  color: var(--accent)
 }
 
 input[type="checkbox"] {
@@ -153,9 +174,15 @@ input[type="checkbox"]:hover {
 input[type="checkbox"]:checked {
   clip-path: circle(50% at 50% 50%);
   appearance: auto;
-  accent-color: var(--accent-alt);
+  accent-color: var(--accent);
 }
 
 .logo {
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .star-icon, .trash-icon {
+    display: none;
+  }
 }
