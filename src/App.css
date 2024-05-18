@@ -1,0 +1,161 @@
+:root {
+  --primary: #262626;
+  --secondary: #333333;
+  --secondary-bright: #444444;
+  --accent: #2d5bb6;
+  --side: #363535;
+  --icon-default: #ffffff;
+  --star: #e2e201;
+  --trash: #ff0000;
+  --trash-hold: #da0000;
+
+  --accent-alt: #a3bcc0ff;
+  --accent-alt-darker: #83a0a5ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background: rgb(0,0,0);
+  overflow: hidden;
+  margin: 0;
+}
+
+.outer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.nav-container {
+  width: 20vw;
+  height: 100vh;
+  background-color: var(--side);
+}
+
+.middle-container {
+  width: 80vw;
+  background-color: var(--primary);
+  padding: 40px;
+  color: #ffffff;
+  border-radius: 5px;
+  height: 100vh;
+}
+
+.middle-container h2 {
+  color: var(--accent-alt);
+}
+
+.task-list {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 2%;
+  height: 80%;
+  overflow-y: auto;
+  scrollbar-color: var(--secondary) var(--primary);
+  scrollbar-width: 10px;
+}
+
+.task-container {
+  margin-bottom: 0;
+  background-color: var(--secondary);
+  padding: 20px;
+  font-size: 1.2em;
+  border-radius: 10px;
+  width: 95%;
+}
+
+.task-container * {
+  display: inline;
+  vertical-align: middle;
+}
+
+.task-container span {
+  float: inline-end;
+  height: 100%;
+  background: none;
+  margin-top: 8px;
+}
+
+.trash-icon {
+  color: #ffffff;
+}
+
+.trash-icon:active {
+  color: var(--trash-hold);
+}
+
+.star-icon {
+  margin-right: 20px;
+}
+
+.star-icon:hover {
+  color: var(--accent-alt-darker);
+  cursor: pointer;
+}
+
+.trash-icon:hover {
+  color: #ff0000;
+  cursor: pointer;
+}
+
+.task-container p:hover {
+  cursor: default;
+}
+
+.task-container:hover {
+  transition: all 0.5s;
+  background-color: var(--secondary-bright);
+}
+
+#task-form {
+  width: 100%;
+  margin: 0 auto 40px auto;
+}
+
+#task-input {
+  width: 94%;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid var(--primary);
+  font-size: 1.2rem;
+  outline: none;
+  background-color: var(--secondary);
+  color: white;
+}
+
+#task-input:hover, #task-input:focus {
+  background-color: var(--secondary-bright);
+}
+
+#task-input::placeholder {
+  color: var(--accent-alt);
+  font-weight: 100;
+}
+
+input[type="checkbox"] {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  margin-right: 20px;
+  cursor: pointer;
+  border: 1px solid grey;
+  outline: none;
+  appearance: none;
+}
+
+input[type="checkbox"]:hover {
+  background-color: var(--primary);
+}
+
+input[type="checkbox"]:checked {
+  clip-path: circle(50% at 50% 50%);
+  appearance: auto;
+  accent-color: var(--accent-alt);
+}
+
+.logo {
+  width: 100%;
+}
