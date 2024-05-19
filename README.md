@@ -2,4 +2,11 @@
 
 A simple but elegant To-do list app.
 
-![Web app preview](/src/assets/screenshots/Screenshot_18-5-2024_174839_localhost.jpeg)
+## Web Design
+
+![Web app preview](/src/assets/screenshots/Screenshot_web.jpeg)
+
+## Mobile Design
+
+![Mobile preview](/src/assets/screenshots/Screenshot_mobile.jpeg)
+![Mobile menu preview](/src/assets/screenshots/Screenshot_mobile_menu.jpeg)

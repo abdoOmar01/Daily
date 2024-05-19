@@ -23,6 +23,21 @@ body {
   margin: 0;
 }
 
+.ham-menu {
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: none;
+}
+
+.ham-icon:hover {
+  cursor: pointer;
+}
+
+.nav-container .ham-menu {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
 .outer-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -32,6 +47,11 @@ body {
   width: 20vw;
   height: 100vh;
   background-color: var(--side);
+}
+
+@keyframes expand {
+  from { width: 0 }
+  to { width: 70vh }
 }
 
 .middle-container {
@@ -64,31 +84,14 @@ body {
   font-size: 1.2em;
   border-radius: 10px;
   width: 95%;
-  transition: display 1s ease-in;
+  display: flex;
+  align-items: center;
 }
 
-.task-container * {
-  display: inline;
-  vertical-align: middle;
-}
-
-.task-container span {
-  float: inline-end;
-  height: 100%;
-  background: none;
-  margin-top: 8px;
-}
-
-.trash-icon {
-  color: #ffffff;
-}
-
-.trash-icon:active {
-  color: var(--trash-hold);
-}
-
-.star-icon {
-  margin-right: 20px;
+.modifiers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px
 }
 
 .star-icon:hover {
@@ -96,9 +99,20 @@ body {
   cursor: pointer;
 }
 
+.trash-icon {
+  margin-left: 3.5px;
+}
+
 .trash-icon:hover {
-  color: #ff0000;
+  color: var(--trash);
   cursor: pointer;
+}
+
+.task-container p {
+  word-wrap: break-word;
+  word-break: break-all;
+  width: 90%;
+  margin: 0 10px;
 }
 
 .task-container p:hover {
@@ -165,6 +179,7 @@ input[type="checkbox"] {
   border: 1px solid grey;
   outline: none;
   appearance: none;
+  flex-shrink: 0;
 }
 
 input[type="checkbox"]:hover {
@@ -182,7 +197,26 @@ input[type="checkbox"]:checked {
 }
 
 @media (max-width: 600px) {
-  .star-icon, .trash-icon {
+  .nav-container {
     display: none;
+    width: 0;
+  }
+
+  .middle-container {
+    width: 100vw;
+  }
+
+  .task-list {
+    height: 70%;
+  }
+
+  .ham-menu {
+    display: block;
+  }
+
+  .modifiers {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
   }
 }

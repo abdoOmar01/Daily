@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrashCan, faStar, faCalendar } from "@fortawesome/free-solid-svg-icons"
+import { faTrashCan, faStar, faCalendar, faBars } from "@fortawesome/free-solid-svg-icons"
 
 import DailyDark from "./assets/daily-dark.svg"
 import DailyLight from "./assets/daily-light.svg"
@@ -19,12 +19,15 @@ const Task = ({ task, checkHandler, removeHandler, importanceHandler }) => {
     <div className="task-container">
       <input type="checkbox" onChange={() => checkHandler(task.id)} />
       <p style={task.checked ? styleChecked : styleNormal} id={task.id}>{task.name}</p>
-      <span>
-        <FontAwesomeIcon onClick={() => removeHandler(task.id)} icon={faTrashCan} size="lg" className="trash-icon" />
-      </span>
-      <span>
-        <FontAwesomeIcon onClick={() => importanceHandler(task.id)} icon={faStar} size="lg" className="star-icon" color={task.important ? "#a3bcc0ff" : "#ffffff"} />
-      </span>
+      <div className="modifiers">
+        <span>
+          <FontAwesomeIcon onClick={() => importanceHandler(task.id)} icon={faStar} size="lg" className="star-icon" color={task.important ? "#a3bcc0ff" : "#ffffff"} />
+        </span>
+        <span>
+          <FontAwesomeIcon onClick={() => removeHandler(task.id)} icon={faTrashCan} size="lg" className="trash-icon" />
+        </span>
+
+      </div>
     </div>
   )
 }
@@ -67,6 +70,28 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [tasks, setTasks] = useState([])
   const [darkMode, setDarkMode] = useState(false)
+  const [width, setWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    window.addEventListener('resize', () => setWidth(window.innerWidth))
+    console.log(width)
+    const nav = document.querySelector('.nav-container')
+    const middle = document.querySelector('.middle-container')
+    const ham = document.querySelector('.ham-menu')
+    if (width <= 600) {
+      nav.style.display = 'none'
+      middle.style.width = '100vw'
+      ham.style.display = 'block'
+    } else {
+      nav.style.display = 'block'
+      nav.style.position = 'initial'
+      nav.style.animation = ''
+      nav.style.width = '20vw'
+      middle.style.width = '80vw'
+      middle.style.filter = ''
+      ham.style.display = 'none'
+    }
+  }, [width])
 
   const handleTaskChange = (event) => setTaskName(event.target.value)
   const handleFilterChange = (event) => setFilter(event.target.value)
@@ -116,14 +141,39 @@ const App = () => {
     setTasks(tasks.map(t => t.id === id ? changedTask : t))
   }
 
+  const toggleNavigation = () => {
+    const nav = document.querySelector('.nav-container')
+    const middle = document.querySelector('.middle-container')
+    if (!nav.style.display || nav.style.display === 'none') {
+      nav.style.display = 'block'
+      nav.style.position = 'absolute'
+      nav.style.width = '70vw'
+      nav.style.zIndex = 1
+      nav.style.animation = 'expand 0.2s linear'
+      middle.style.filter = 'brightness(70%)'
+    } else {
+      nav.style.display = 'none'
+      middle.style.width = '100vw'
+      middle.style.filter = ''
+    }
+  }
+
   const tasksToShow = tasks.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div className="outer-container">
       <div className="nav-container">
+        <div className="ham-menu">
+          <FontAwesomeIcon className="ham-icon" onClick={toggleNavigation} icon={faBars}
+            size="lg" />
+        </div>
         <Navigation searchVal={filter} searchHandler={handleFilterChange} />
       </div>
       <div className="middle-container">
+        <div className="ham-menu">
+          <FontAwesomeIcon className="ham-icon" onClick={toggleNavigation} icon={faBars}
+            size="lg" />
+        </div>
         <TaskInput value={taskName} inputHandler={handleTaskChange}
           submitHandler={addTask} />
         <h2>Tasks</h2>
