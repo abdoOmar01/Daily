@@ -6,8 +6,8 @@
   --side: #363535;
   --icon-default: #ffffff;
   --star: #e2e201;
-  --trash: #ff0000;
-  --trash-hold: #da0000;
+  --trash: #d00000;
+  --trash-hold: #130101;
   --accent: #a3bcc0ff;
   --accent-darker: #83a0a5ff;
 }
@@ -40,18 +40,13 @@ body {
 
 .outer-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto auto auto;
 }
 
 .nav-container {
   width: 20vw;
   height: 100vh;
   background-color: var(--side);
-}
-
-@keyframes expand {
-  from { width: 0 }
-  to { width: 70vh }
 }
 
 .middle-container {
@@ -86,6 +81,7 @@ body {
   width: 95%;
   display: flex;
   align-items: center;
+  animation: show 0.2s linear;
 }
 
 .modifiers {
@@ -122,6 +118,23 @@ body {
 .task-container:hover {
   transition: all 0.5s;
   background-color: var(--secondary-bright);
+}
+
+.task-info {
+  width: 25vw;
+  height: 100vh;
+  background-color: var(--secondary-bright);
+}
+
+.close-icon {
+  color: var(--icon-default);
+  direction: rtl;
+  margin-right: 10%;
+  margin-top: 5%;
+}
+
+.close-icon:hover {
+  cursor: pointer;
 }
 
 #task-form {
@@ -218,5 +231,30 @@ input[type="checkbox"]:checked {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 20px;
+  }
+
+  .task-info {
+    width: 100vw;
+    animation: expand-left 0.2s linear;
+  }
+}
+
+@keyframes expand {
+  from { width: 0 }
+  to { width: 70vw }
+}
+
+@keyframes expand-left {
+  from { width: 0 }
+  to { width: 100vw }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

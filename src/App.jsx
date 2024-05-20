@@ -1,76 +1,24 @@
 import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrashCan, faStar, faCalendar, faBars } from "@fortawesome/free-solid-svg-icons"
+import { faBars } from "@fortawesome/free-solid-svg-icons"
+
+import TaskInfo from "./components/TaskInfo"
+import TaskInput from "./components/TaskInput"
+import TaskList from "./components/TaskList"
+import Navigation from "./components/Navigation"
 
 import DailyDark from "./assets/daily-dark.svg"
 import DailyLight from "./assets/daily-light.svg"
+
 import "./App.css"
-
-const Task = ({ task, checkHandler, removeHandler, importanceHandler }) => {
-  const styleNormal = {
-    textDecoration: 'none'
-  }
-
-  const styleChecked = {
-    textDecoration: 'line-through'
-  }
-
-  return (
-    <div className="task-container">
-      <input type="checkbox" onChange={() => checkHandler(task.id)} />
-      <p style={task.checked ? styleChecked : styleNormal} id={task.id}>{task.name}</p>
-      <div className="modifiers">
-        <span>
-          <FontAwesomeIcon onClick={() => importanceHandler(task.id)} icon={faStar} size="lg" className="star-icon" color={task.important ? "#a3bcc0ff" : "#ffffff"} />
-        </span>
-        <span>
-          <FontAwesomeIcon onClick={() => removeHandler(task.id)} icon={faTrashCan} size="lg" className="trash-icon" />
-        </span>
-
-      </div>
-    </div>
-  )
-}
-
-const TaskList = ({ tasks, checkHandler, removeHandler, importanceHandler }) => {
-
-  return (
-    <div className="task-list">
-      {tasks.map(task =>
-        <Task key={task.id} task={task} checkHandler={checkHandler}
-          removeHandler={removeHandler}
-          importanceHandler={importanceHandler} />
-      )}
-    </div>
-  )
-}
-
-const TaskInput = ({ value, inputHandler, submitHandler }) => {
-  return (
-    <form id="task-form" onSubmit={submitHandler} autoComplete="off">
-      <input type="text" name="task" id="task-input" value={value}
-        onChange={inputHandler} placeholder="Enter your task" required/>
-    </form>
-  )
-}
-
-const Navigation = ({ searchVal, searchHandler }) => {
-  return (
-    <>
-      <img src={DailyDark} alt="Daily dark mode logo" className="logo" />
-      <input autoComplete="off" type="text" name="search" id="search-input"
-        placeholder="Search" value={searchVal}
-        onChange={searchHandler} />
-    </>
-  )
-}
 
 const App = () => {
   const [taskName, setTaskName] = useState('')
   const [filter, setFilter] = useState('')
   const [tasks, setTasks] = useState([])
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(true)
   const [width, setWidth] = useState(window.innerWidth)
+  const [info, setInfo] = useState(null)
 
   useEffect(() => {
     window.addEventListener('resize', () => setWidth(window.innerWidth))
@@ -80,6 +28,7 @@ const App = () => {
     const ham = document.querySelector('.ham-menu')
     if (width <= 600) {
       nav.style.display = 'none'
+      middle.style.display = info ? 'none' : 'block'
       middle.style.width = '100vw'
       ham.style.display = 'block'
     } else {
@@ -87,7 +36,8 @@ const App = () => {
       nav.style.position = 'initial'
       nav.style.animation = ''
       nav.style.width = '20vw'
-      middle.style.width = '80vw'
+      middle.style.display = 'block'
+      middle.style.width = info ? '55vw' : '80vw'
       middle.style.filter = ''
       ham.style.display = 'none'
     }
@@ -158,17 +108,31 @@ const App = () => {
     }
   }
 
+  const toggleInfo = (id) => {
+    const middleContainer = document.querySelector('.middle-container')
+    if (info && id === info.id) {
+      middleContainer.style.display = 'block'
+      middleContainer.style.width = width <= 600 ? '100vw' : '80vw'
+      return setInfo(null)
+    }
+    
+    if (width <= 600) {
+      middleContainer.style.display = 'none'
+    }
+    middleContainer.style.width = '55vw'
+    setInfo(tasks.find(t => t.id === id))
+  }
+
   const tasksToShow = tasks.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div className="outer-container">
-      <div className="nav-container">
-        <div className="ham-menu">
-          <FontAwesomeIcon className="ham-icon" onClick={toggleNavigation} icon={faBars}
-            size="lg" />
-        </div>
-        <Navigation searchVal={filter} searchHandler={handleFilterChange} />
-      </div>
+      <Navigation
+        searchVal={filter}
+        searchHandler={handleFilterChange}
+        navHandler={toggleNavigation}
+        image={darkMode ? DailyDark : DailyLight} />
+
       <div className="middle-container">
         <div className="ham-menu">
           <FontAwesomeIcon className="ham-icon" onClick={toggleNavigation} icon={faBars}
@@ -179,8 +143,11 @@ const App = () => {
         <h2>Tasks</h2>
         <TaskList tasks={tasksToShow} checkHandler={handleCheck}
           removeHandler={removeTask}
-          importanceHandler={toggleImportance} />
+          importanceHandler={toggleImportance}
+          infoHandler={toggleInfo} />
       </div>
+
+      <TaskInfo task={info} closeHandler={toggleInfo} />
     </div>
   )
 }
