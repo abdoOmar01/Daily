@@ -229,6 +229,29 @@ input[type="checkbox"]:checked {
   width: 100%;
 }
 
+@media (max-width: 800px) {
+  .nav-container {
+    display: none;
+    width: 0;
+  }
+
+  .middle-container {
+    width: 100vw;
+  }
+
+  .task-list {
+    height: 70%;
+  }
+
+  .ham-menu {
+    display: block;
+  }
+
+  .task-info {
+    width: 50vw;
+  }
+}
+
 @media (max-width: 600px) {
   .nav-container {
     display: none;

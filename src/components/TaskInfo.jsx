@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faX } from "@fortawesome/free-solid-svg-icons"
+import { faXmark } from "@fortawesome/free-solid-svg-icons"
 
 const TaskInfo = ({ task, closeHandler, editHandler, dateHandler }) => {
   if (!task) return null
@@ -7,7 +7,7 @@ const TaskInfo = ({ task, closeHandler, editHandler, dateHandler }) => {
   return (
     <div className="task-info">
       <div className="close-icon">
-        <FontAwesomeIcon onClick={() => closeHandler(task.id)} icon={faX} size="sm" />
+        <FontAwesomeIcon onClick={() => closeHandler(task.id)} icon={faXmark} size="lg" />
       </div>
       <div className="edit-container">
         <input id={`ed${task.id}`}

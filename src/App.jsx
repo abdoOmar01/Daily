@@ -26,9 +26,9 @@ const App = () => {
     const nav = document.querySelector('.nav-container')
     const middle = document.querySelector('.middle-container')
     const ham = document.querySelector('.ham-menu')
-    if (width <= 600) {
+    if (width <= 800) {
       nav.style.display = 'none'
-      middle.style.display = info ? 'none' : 'block'
+      middle.style.display = 'block'
       middle.style.width = '100vw'
       ham.style.display = 'block'
     } else {
@@ -99,7 +99,7 @@ const App = () => {
     if (!nav.style.display || nav.style.display === 'none') {
       nav.style.display = 'block'
       nav.style.position = 'absolute'
-      nav.style.width = '70vw'
+      nav.style.width = width >= 600 ? '60vw' : '80vw'
       nav.style.zIndex = 1
       nav.style.animation = 'expand 0.2s linear'
       middle.style.filter = 'brightness(70%)'
@@ -114,14 +114,15 @@ const App = () => {
     const middleContainer = document.querySelector('.middle-container')
     if (info && id === info.id) {
       middleContainer.style.display = 'block'
-      middleContainer.style.width = width <= 600 ? '100vw' : '80vw'
+      middleContainer.style.width = width <= 800 ? '100vw' : '80vw'
       return setInfo(null)
     }
     
     if (width <= 600) {
       middleContainer.style.display = 'none'
     }
-    middleContainer.style.width = '55vw'
+    
+    middleContainer.style.width = width <= 800 ? '50vw' : '55vw'
     setInfo(tasks.find(t => t.id === id))
   }
 

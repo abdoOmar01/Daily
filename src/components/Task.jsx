@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrashCan, faStar } from "@fortawesome/free-solid-svg-icons"
+import { faStar } from "@fortawesome/free-solid-svg-icons"
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons"
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons"
 
 const Task = ({
   task,
@@ -25,7 +27,9 @@ const Task = ({
         id={task.id}>{task.name}</p>
       <div className="modifiers">
         <span>
-          <FontAwesomeIcon onClick={() => importanceHandler(task.id)} icon={faStar} size="lg" className="star-icon" color={task.important ? "#a3bcc0ff" : "#ffffff"} />
+          <FontAwesomeIcon
+            icon={task.important ? faStar : faStarRegular}
+            onClick={() => importanceHandler(task.id)} size="lg" className="star-icon" color={task.important ? "#a3bcc0ff" : "#ffffff"} />
         </span>
         <span>
           <FontAwesomeIcon onClick={() => removeHandler(task.id)} icon={faTrashCan} size="lg" className="trash-icon" />
