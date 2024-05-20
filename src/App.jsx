@@ -75,7 +75,9 @@ const App = () => {
       dateCreated: new Date(),
       name: taskName,
       checked: false,
-      important: false
+      important: false,
+      dueDate: new Date(),
+      category: 'default'
     }
     setTasks(tasks.concat(taskObj))
     setTaskName('')
@@ -123,6 +125,16 @@ const App = () => {
     setInfo(tasks.find(t => t.id === id))
   }
 
+  const handleEditChange = (event) => {
+    setInfo({ ...info, name: event.target.value })
+    setTasks(tasks.map(t => t.id === info.id ? { ...t, name: event.target.value } : t))
+  }
+
+  const handleDateChange = (event) => {
+    setInfo({ ...info, dueDate: event.target.value })
+    setTasks(tasks.map(t => t.id === info.id ? { ...t, dueDate: event.target.value } : t))
+  }
+
   const tasksToShow = tasks.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
@@ -147,7 +159,10 @@ const App = () => {
           infoHandler={toggleInfo} />
       </div>
 
-      <TaskInfo task={info} closeHandler={toggleInfo} />
+      <TaskInfo task={info}
+        closeHandler={toggleInfo}
+        editHandler={handleEditChange}
+        dateHandler={handleDateChange} />
     </div>
   )
 }
