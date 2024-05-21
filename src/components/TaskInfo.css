@@ -46,14 +46,6 @@
     outline: none;
     border-radius: 5px;
     border: 1px solid var(--side-background);
-
-    &[data-theme="dark"] {
-      color-scheme: light;
-    }
-
-    &[data-theme="light"] {
-      color-scheme: dark;
-    }
   }
 
   h3 {
@@ -90,7 +82,7 @@
     }
 
     input[type="datetime-local"] {
-      width: 60%;
+      width: 85%;
     }
   }
 }

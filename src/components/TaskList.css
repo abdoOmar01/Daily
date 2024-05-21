@@ -4,7 +4,7 @@
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   gap: 2%;
-  height: 80%;
+  height: 70vh;
   overflow-y: auto;
   scrollbar-color: var(--task-background) var(--main-background);
   scrollbar-width: 10px;
@@ -12,6 +12,6 @@
 
 @media (max-width: 800px) {
   .task-list {
-    height: 70%;
+    height: 55vh;
   }
 }

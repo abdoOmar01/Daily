@@ -33,7 +33,7 @@ const Task = ({
           <FontAwesomeIcon
             icon={task.important ? faStar : faStarRegular}
             onClick={() => importanceHandler(task.id)} size="lg" className="star-icon"
-            color={task.important ? "var(--accent-darker)" : "#ffffff"} />
+            color={task.important ? "var(--nav-highlight)" : "#ffffff"} />
         </span>
         <span>
           <FontAwesomeIcon onClick={() => removeHandler(task.id)} icon={faTrashCan} size="lg" className="trash-icon" />
