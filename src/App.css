@@ -18,6 +18,8 @@
   --due-date-color: #a3bcc0;
   --input-background: #333333;
   --input-hover: #444444;
+  --trash: #ba0000;
+  --restore: #02aa02;
 
   color-scheme: dark;
 }
@@ -42,6 +44,8 @@
   --due-date-color: #ffffff;
   --input-background: #acaab4;
   --input-hover: #c9c6d2;
+  --trash: #ba0000;
+  --restore: #02aa02;
 
   color-scheme: light;
 }
