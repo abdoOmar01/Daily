@@ -1,14 +1,4 @@
 [data-theme="dark"] {
-  --primary: #262626;
-  --primary-darker: #141414;
-  --secondary: #333333;
-  --secondary-bright: #444444;
-  --side: #363535;
-  --star: #abab09;
-  --trash: #d00000;
-  --accent: #a3bcc0;
-  --accent-darker: #83a0a5;
-  
   --primary-text: #ffffff;
   --alt-text: #a3bcc0;
   --nav-highlight: #83a0a5;
@@ -33,17 +23,6 @@
 }
 
 [data-theme="light"] {
-  --primary: #dcdcdc;
-  --primary-darker: #ffffff;
-  --secondary: #ffffff;
-  --secondary-bright: #e2d4d4;
-  --side: #c4c4bf;
-  --icon-default: #120b0b;
-  --star: #abab09;
-  --trash: #d00000;
-  --accent: #050505;
-  --accent-darker: #ebebe8;
-
   --primary-text: #000000;
   --alt-text: #26240a;
   --nav-highlight: #ffffff;
