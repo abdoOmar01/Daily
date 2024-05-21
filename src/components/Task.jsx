@@ -15,15 +15,16 @@ const Task = ({
     textDecoration: 'none'
   }
 
-  const styleChecked = {
-    textDecoration: 'line-through'
+  const styleDone = {
+    textDecoration: 'line-through',
+    color: 'grey'
   }
 
   return (
     <div className="task-container" id={`t${task.id}`}>
-      <input type="checkbox" onChange={() => checkHandler(task.id)} />
+      <input type="checkbox" onChange={() => checkHandler(task.id)} checked={task.done} />
       <p onClick={() => infoHandler(task.id)}
-        style={task.checked ? styleChecked : styleNormal}
+        style={task.done ? styleDone : styleNormal}
         id={task.id}>{task.name}</p>
       <div className="modifiers">
         <span>

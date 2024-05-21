@@ -5,7 +5,10 @@ import { faBars } from "@fortawesome/free-solid-svg-icons"
 import TaskInfo from "./components/TaskInfo"
 import TaskInput from "./components/TaskInput"
 import TaskList from "./components/TaskList"
+import TaskTrash from "./components/TaskTrash"
 import Navigation from "./components/Navigation"
+
+import defaultSort from "./utils/sort"
 
 import DailyDark from "./assets/daily-dark.svg"
 import DailyLight from "./assets/daily-light.svg"
@@ -13,16 +16,17 @@ import DailyLight from "./assets/daily-light.svg"
 import "./App.css"
 
 const App = () => {
+  const [tasks, setTasks] = useState([])
+  const [deleted, setDeleted] = useState([])
+  const [property, setProperty] = useState('all')
   const [taskName, setTaskName] = useState('')
   const [filter, setFilter] = useState('')
-  const [tasks, setTasks] = useState([])
   const [darkMode, setDarkMode] = useState(true)
   const [width, setWidth] = useState(window.innerWidth)
   const [info, setInfo] = useState(null)
 
   useEffect(() => {
     window.addEventListener('resize', () => setWidth(window.innerWidth))
-    console.log(width)
     const nav = document.querySelector('.nav-container')
     const middle = document.querySelector('.middle-container')
     const ham = document.querySelector('.ham-menu')
@@ -30,6 +34,7 @@ const App = () => {
       nav.style.display = 'none'
       middle.style.display = 'block'
       middle.style.width = '100vw'
+      middle.style.filter = ''
       ham.style.display = 'block'
     } else {
       nav.style.display = 'block'
@@ -49,22 +54,8 @@ const App = () => {
   const handleCheck = (id) => {
     const index = tasks.findIndex(t => t.id === id)
     const copy = [...tasks]
-    copy[index] = { ...tasks[index], checked: !tasks[index].checked }
-    copy.sort((a, b) => {
-      if (a.checked === b.checked) {
-        if (a.dateCreated > b.dateCreated) {
-          return 1
-        } else if (a.dateCreated < b.dateCreated) {
-          return -1
-        } else {
-          return 0
-        }
-      } else if (a.checked) {
-        return 1
-      }
-
-      return -1
-    })
+    copy[index] = { ...tasks[index], done: !tasks[index].done }
+    copy.sort(defaultSort)
     setTasks(copy)
   }
 
@@ -74,17 +65,20 @@ const App = () => {
       id: Math.floor(Math.random() * 1000000),
       dateCreated: new Date(),
       name: taskName,
-      checked: false,
+      done: false,
       important: false,
       dueDate: new Date(),
       category: 'default'
     }
     setTasks(tasks.concat(taskObj))
     setTaskName('')
+    handleShow('all')
   }
 
   const removeTask = (id) => {
+    const task = tasks.find(t => t.id === id)
     setTasks(tasks.filter(t => t.id !== id))
+    setDeleted(deleted.concat(task))
   }
 
   const toggleImportance = (id) => {
@@ -128,7 +122,11 @@ const App = () => {
 
   const handleEditChange = (event) => {
     setInfo({ ...info, name: event.target.value })
-    setTasks(tasks.map(t => t.id === info.id ? { ...t, name: event.target.value } : t))
+  }
+
+  const renameTask = (event) => {
+    event.preventDefault()
+    setTasks(tasks.map(t => t.id === info.id ? { ...t, name: info.name } : t))
   }
 
   const handleDateChange = (event) => {
@@ -136,7 +134,35 @@ const App = () => {
     setTasks(tasks.map(t => t.id === info.id ? { ...t, dueDate: event.target.value } : t))
   }
 
-  const tasksToShow = tasks.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()))
+  const handleShow = (prop) => {
+    setProperty(prop)
+    const styleMap = {
+      'all': '#83a0a5',
+      'done': '#83a0a5',
+      'important': '#abab09',
+      'trash': '#a81c1c'
+    }
+    document.querySelectorAll('.option').forEach(p => p.style.background = 'none')
+    document.querySelector(`.option.${prop}`).style.background = styleMap[prop]
+  }
+
+  const restoreTask = (id) => {
+    const task = deleted.find(t => t.id === id)
+    setDeleted(deleted.filter(t => t.id !== id))
+    setTasks(tasks.concat(task))
+  }
+
+  const deletePermanent = (id) => {
+    setDeleted(deleted.filter(t => t.id !== id))
+  }
+
+  const tasksToShow = tasks.filter(t => {
+    return (property === 'all' ? true : t[property]) &&
+      t.name.toLowerCase().includes(filter.toLowerCase())
+  })
+
+  const deletedTasksToShow = deleted.filter(t =>
+    t.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div className="outer-container">
@@ -144,7 +170,8 @@ const App = () => {
         searchVal={filter}
         searchHandler={handleFilterChange}
         navHandler={toggleNavigation}
-        image={darkMode ? DailyDark : DailyLight} />
+        image={darkMode ? DailyDark : DailyLight}
+        showHandler={handleShow} />
 
       <div className="middle-container">
         <div className="ham-menu">
@@ -154,15 +181,21 @@ const App = () => {
         <TaskInput value={taskName} inputHandler={handleTaskChange}
           submitHandler={addTask} />
         <h2>Tasks</h2>
-        <TaskList tasks={tasksToShow} checkHandler={handleCheck}
-          removeHandler={removeTask}
-          importanceHandler={toggleImportance}
-          infoHandler={toggleInfo} />
+        {property === 'trash'
+          ? <TaskTrash tasks={deletedTasksToShow}
+              restoreHandler={restoreTask}
+              deleteHandler={deletePermanent} />
+          : <TaskList tasks={tasksToShow} checkHandler={handleCheck}
+            removeHandler={removeTask}
+            importanceHandler={toggleImportance}
+            infoHandler={toggleInfo} />
+        }
       </div>
 
       <TaskInfo task={info}
         closeHandler={toggleInfo}
         editHandler={handleEditChange}
+        renameHandler={renameTask}
         dateHandler={handleDateChange} />
     </div>
   )

@@ -1,7 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
+import convertDate from "../utils/date"
 
-const TaskInfo = ({ task, closeHandler, editHandler, dateHandler }) => {
+const TaskInfo = ({ task, closeHandler, editHandler, renameHandler, dateHandler }) => {
   if (!task) return null
 
   return (
@@ -9,12 +10,16 @@ const TaskInfo = ({ task, closeHandler, editHandler, dateHandler }) => {
       <div className="close-icon">
         <FontAwesomeIcon onClick={() => closeHandler(task.id)} icon={faXmark} size="lg" />
       </div>
-      <div className="edit-container">
-        <input id={`ed${task.id}`}
-          onChange={editHandler} value={task.name} className="edit-task" type="text" />
-      </div>
-      <h3>Add Due Date</h3>
+      <form className="edit-container" onSubmit={renameHandler} autoComplete="off">
+        <input onChange={editHandler} value={task.name}
+          className="edit-task" type="text" required />
+      </form>
+      <h3>Add due date</h3>
       <input type="datetime-local" value={task.dueDate} onChange={dateHandler} />
+
+      <div className="creation-date">
+        <h4>Created on {convertDate(task.dateCreated)}</h4>
+      </div>
     </div>
   )
 }

@@ -5,10 +5,10 @@
   --secondary-bright: #444444;
   --side: #363535;
   --icon-default: #ffffff;
-  --star: #e2e201;
+  --star: #abab09;
   --trash: #d00000;
   --trash-hold: #130101;
-  --accent: #a3bcc0ff;
+  --accent: #a3bcc0;
   --accent-darker: #83a0a5ff;
 }
 
@@ -47,6 +47,58 @@ body {
   width: 20vw;
   height: 100vh;
   background-color: var(--side);
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 20px auto;
+  margin-left:8%;
+  width: 80%;
+}
+
+.option.all {
+  background-color: var(--accent-darker);
+}
+
+.options .option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 10px auto;
+  border-radius: 5px;
+  color: white;
+}
+
+.option:hover {
+  background-color: var(--accent-darker) !important;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+.option.important:hover {
+  background-color: var(--star) !important;
+}
+
+.option .op-icon {
+  margin: 0 10px;
+  width: fit-content;
+}
+
+.option.trash p {
+  margin-left: 2px;
+}
+
+.op-icon.trash-icon {
+  margin-left: 12px;
+}
+
+.op-icon.trash-icon:hover {
+  color: var(--icon-default);
+}
+
+.option.trash:hover {
+  background-color: #A81C1C !important;
 }
 
 .middle-container {
@@ -90,6 +142,25 @@ body {
   gap: 10px
 }
 
+.trash-container p {
+  color: lightgrey;
+  text-decoration: line-through;
+}
+
+.trash-container .modifiers .delete {
+  margin-left: 10px;
+}
+
+.restore:hover {
+  color: rgb(2, 170, 2);
+  cursor: pointer;
+}
+
+.delete:hover {
+  color: red;
+  cursor: pointer;
+}
+
 .star-icon:hover {
   color: var(--accent-darker);
   cursor: pointer;
@@ -125,6 +196,16 @@ body {
   height: 100vh;
   background-color: var(--secondary-bright);
   padding: 20px;
+  position: relative;
+}
+
+.task-info .creation-date {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  color: var(--icon-default);
+  border-top: 1px solid var(--icon-default);
+  width: 90%;
 }
 
 .task-info h3 {
@@ -133,7 +214,8 @@ body {
 
 .task-info input[type="datetime-local"] {
   background-color: var(--side);
-  color: var(--accent-darker);
+  color: #b5d1d5;
+  color-scheme: dark;
   padding: 20px;
   width: 80%;
   font-size: 1.2em;
@@ -147,14 +229,17 @@ body {
 }
 
 .close-icon {
+  width: fit-content;
   color: #e4e4e4;
-  direction: rtl;
-  margin-right: 10%;
-  margin-top: 5%;
+  padding: 5px;
+  float: right;
+  margin-bottom: 20px;
+  border-radius: 5px;
 }
 
 .close-icon:hover {
   cursor: pointer;
+  background-color: var(--secondary);
 }
 
 #task-form {
@@ -281,8 +366,16 @@ input[type="checkbox"]:checked {
     animation: expand-left 0.2s linear;
   }
 
+  .close-icon {
+    padding: 10px;
+  }
+
   .task-info input[type="datetime-local"] {
     width: 60%;
+  }
+
+  .trash-container .modifiers .delete {
+    margin: 0;
   }
 }
 
