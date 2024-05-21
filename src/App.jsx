@@ -21,7 +21,7 @@ const App = () => {
   const [property, setProperty] = useState('all')
   const [taskName, setTaskName] = useState('')
   const [filter, setFilter] = useState('')
-  const [darkMode, setDarkMode] = useState(true)
+  const [darkMode, setDarkMode] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const [info, setInfo] = useState(null)
 
@@ -96,7 +96,7 @@ const App = () => {
       nav.style.width = width >= 600 ? '60vw' : '80vw'
       nav.style.zIndex = 1
       nav.style.animation = 'expand 0.2s linear'
-      middle.style.filter = 'brightness(70%)'
+      middle.style.filter = `brightness(${darkMode ? '70%' : '90%'})`
     } else {
       nav.style.display = 'none'
       middle.style.width = '100vw'
@@ -136,14 +136,11 @@ const App = () => {
 
   const handleShow = (prop) => {
     setProperty(prop)
-    const styleMap = {
-      'all': '#83a0a5',
-      'done': '#83a0a5',
-      'important': '#abab09',
-      'trash': '#a81c1c'
-    }
     document.querySelectorAll('.option').forEach(p => p.style.background = 'none')
-    document.querySelector(`.option.${prop}`).style.background = styleMap[prop]
+    document.querySelector(`.option.${prop}`).style.background =
+      prop === 'trash'
+        ? 'var(--trash)'
+        : 'var(--nav-highlight)' 
   }
 
   const restoreTask = (id) => {
@@ -155,6 +152,8 @@ const App = () => {
   const deletePermanent = (id) => {
     setDeleted(deleted.filter(t => t.id !== id))
   }
+
+  const toggleDarkMode = () => setDarkMode(!darkMode)
 
   const tasksToShow = tasks.filter(t => {
     return (property === 'all' ? true : t[property]) &&
@@ -171,7 +170,8 @@ const App = () => {
         searchHandler={handleFilterChange}
         navHandler={toggleNavigation}
         image={darkMode ? DailyDark : DailyLight}
-        showHandler={handleShow} />
+        showHandler={handleShow}
+        modeHandler={toggleDarkMode} />
 
       <div className="middle-container">
         <div className="ham-menu">

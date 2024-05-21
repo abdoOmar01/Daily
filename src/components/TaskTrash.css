@@ -2,7 +2,7 @@
 
 .trash-container {
   margin-bottom: 0;
-  background-color: var(--secondary);
+  background-color: var(--task-background);
   padding: 20px;
   font-size: 1.2em;
   border-radius: 10px;
@@ -13,7 +13,7 @@
 
   &:hover {
     transition: all 0.5s;
-    background-color: var(--secondary-bright);
+    background-color: var(--task-hover);
   }
 
    p {

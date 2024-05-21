@@ -9,18 +9,18 @@
   width: 94%;
   padding: 15px;
   border-radius: 5px;
-  border: 1px solid var(--primary);
+  border: 1px solid var(--main-background);
   font-size: 1.2rem;
   outline: none;
-  background-color: var(--secondary);
-  color: #ffffff;
-  caret-color: var(--accent);
+  background-color: var(--input-background);
+  color: var(--primary-text);
+  caret-color: var(--alt-text);
 
   &:hover, &:focus {
-    background-color: var(--secondary-bright);
+    background-color: var(--input-hover);
   }
 
   &::placeholder {
-    color: var(--accent);
+    color: var(--alt-text);
   }
 }

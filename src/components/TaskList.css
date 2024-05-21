@@ -6,7 +6,7 @@
   gap: 2%;
   height: 80%;
   overflow-y: auto;
-  scrollbar-color: var(--secondary) var(--primary);
+  scrollbar-color: var(--task-background) var(--main-background);
   scrollbar-width: 10px;
 }
 

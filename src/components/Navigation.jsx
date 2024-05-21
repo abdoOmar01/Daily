@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBars, faHouse, faStar, faTrashAlt, faCheck, faCheckCircle } from "@fortawesome/free-solid-svg-icons"
+import { faBars, faHouse, faStar, faTrashAlt, faCheckCircle } from "@fortawesome/free-solid-svg-icons"
+
 import "./Navigation.css"
 
 const Navigation = ({
@@ -7,7 +8,8 @@ const Navigation = ({
   searchHandler,
   navHandler,
   image,
-  showHandler
+  showHandler,
+  modeHandler
  }) => {
   return (
     <div className="nav-container">
@@ -15,7 +17,7 @@ const Navigation = ({
         <FontAwesomeIcon className="ham-icon" onClick={navHandler} icon={faBars}
           size="lg" />
       </div>
-      <img src={image} alt="Daily App logo" className="logo" />
+      <img onClick={modeHandler} src={image} alt="Daily App logo" className="logo" />
       <input autoComplete="off" type="text" name="search" id="search-input"
         placeholder="Search" value={searchVal}
         onChange={searchHandler} />

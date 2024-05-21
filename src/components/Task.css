@@ -2,7 +2,7 @@
 
 .task-container {
   margin-bottom: 0;
-  background-color: var(--secondary);
+  background-color: var(--task-background);
   padding: 20px;
   font-size: 1.2em;
   border-radius: 10px;
@@ -13,7 +13,7 @@
 
   &:hover {
     transition: all 0.5s;
-    background-color: var(--secondary-bright);
+    background-color: var(--task-hover);
   }
 
   p {
@@ -36,13 +36,13 @@
     flex-shrink: 0;
 
     &:hover {
-      background-color: var(--primary);
+      background-color: var(--checkbox-hover);
     }
 
     &:checked {
       clip-path: circle(50% at 50% 50%);
       appearance: auto;
-      accent-color: var(--accent);
+      accent-color: var(--checkbox-checked);
     }
   }
 }
@@ -55,7 +55,7 @@
 }
 
 .star-icon:hover {
-  color: var(--accent-darker);
+  color: var(--star-hover);
   cursor: pointer;
 }
 

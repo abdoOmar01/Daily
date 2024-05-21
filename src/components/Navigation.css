@@ -3,7 +3,7 @@
 .nav-container {
   width: 20vw;
   height: 100vh;
-  background-color: var(--side);
+  background-color: var(--nav-background);
 
   .ham-menu {
     margin-left: 10px;
@@ -16,6 +16,10 @@
 
   .logo {
     width: 100%;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 
@@ -24,20 +28,20 @@
   padding: 10px;
   margin-left: 8%;
   border-radius: 5px;
-  border: 1px solid var(--side);
+  border: 1px solid var(--nav-background);
   font-size: 0.9em;
   outline: none;
-  background-color: var(--primary);
-  color: #ffffff;
-  caret-color: var(--accent);
-}
+  background-color: var(--main-background);
+  color: var(--primary-text);
+  caret-color: var(--alt-text);
 
-#search-input:hover, #search-input:focus {
-  background-color: var(--primary-darker);
-}
+  &:focus {
+    border-bottom: 2px solid var(--search-border-color);
+  }
 
-#search-input::placeholder {
-  color: var(--accent)
+  &::placeholder {
+    color: var(--alt-text)
+  }
 }
 
 .options {
@@ -54,20 +58,16 @@
   width: 100%;
   margin: 10px auto;
   border-radius: 5px;
-  color: var(--icon-default);
+  color: var(--primary-text);
 
   &:hover {
-    background-color: var(--accent-darker) !important;
+    background-color: var(--nav-highlight) !important;
     cursor: pointer;
     transition: all 0.2s linear;
   }
 
   &.all {
-    background-color: var(--accent-darker);
-  }
-
-  &.important:hover {
-    background-color: var(--star) !important;
+    background-color: var(--nav-highlight);
   }
 
   &.trash {
@@ -89,7 +89,7 @@
     margin-left: 12px;
 
     &:hover {
-      color: var(--icon-default);
+      color: var(--primary-text);
     }
   }
 }

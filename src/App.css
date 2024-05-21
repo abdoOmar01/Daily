@@ -4,24 +4,67 @@
   --secondary: #333333;
   --secondary-bright: #444444;
   --side: #363535;
-  --icon-default: #ffffff;
   --star: #abab09;
   --trash: #d00000;
   --accent: #a3bcc0;
   --accent-darker: #83a0a5;
+  
+  --primary-text: #ffffff;
+  --alt-text: #a3bcc0;
+  --nav-highlight: #83a0a5;
+  --icon-default: #ffffff;
+  --main-background: #262626;
+  --nav-background: #363535;
+  --side-background: #444444;
+  --search-border-color: #83a0a5;
+  --task-background: #333333;
+  --task-hover: #444444;
+  --checkbox-hover: #262626;
+  --checkbox-checked: #a3bcc0;
+  --star-hover: #83a0a5;
+  --x-hover: #333333;
+  --edit-background: #333333;
+  --date-color: #a3bcc0;
+  --due-date-color: #a3bcc0;
+  --input-background: #333333;
+  --input-hover: #444444;
+
+  color-scheme: dark;
 }
 
 [data-theme="light"] {
   --primary: #dcdcdc;
-  --primary-darker: #ddfd0c;
-  --secondary: #9b9b9b;
-  --secondary-bright: #3a3a3a;
-  --side: #9a9b91;
+  --primary-darker: #ffffff;
+  --secondary: #ffffff;
+  --secondary-bright: #e2d4d4;
+  --side: #c4c4bf;
   --icon-default: #120b0b;
   --star: #abab09;
   --trash: #d00000;
-  --accent: #dcc70a;
-  --accent-darker: #b9a709;
+  --accent: #050505;
+  --accent-darker: #ebebe8;
+
+  --primary-text: #000000;
+  --alt-text: #26240a;
+  --nav-highlight: #ffffff;
+  --icon-default: #ffffff;
+  --main-background: #ffffff;
+  --nav-background: #acaab4;
+  --side-background: #413e3e;
+  --search-border-color: #000000;
+  --task-background: #3a3a36;
+  --task-hover: #22221f;
+  --checkbox-hover: #c0bfbf;
+  --checkbox-checked: #c0bfbf;
+  --star-hover: #cacaca;
+  --x-hover: #2c2c2c;
+  --edit-background: #ffffff;
+  --date-color: #000000;
+  --due-date-color: #ffffff;
+  --input-background: #acaab4;
+  --input-hover: #c9c6d2;
+
+  color-scheme: light;
 }
 
 * {
@@ -30,7 +73,6 @@
 
 body {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  background: rgb(0,0,0);
   overflow: hidden;
   margin: 0;
 }
@@ -41,7 +83,7 @@ body {
 }
 
 .ham-menu {
-  color: var(--accent);
+  color: var(--alt-text);
   margin-bottom: 20px;
   display: none;
 }
@@ -52,13 +94,12 @@ body {
 
 .middle-container {
   width: 80vw;
-  background-color: var(--primary);
+  background-color: var(--main-background);
   padding: 40px;
-  border-radius: 5px;
   height: 100vh;
 
   h2 {
-    color: var(--accent);
+    color: var(--alt-text);
   }
 }
 
