@@ -3,6 +3,8 @@ import { faStar } from "@fortawesome/free-solid-svg-icons"
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons"
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons"
 
+import "./Task.css"
+
 const Task = ({
   task,
   checkHandler,

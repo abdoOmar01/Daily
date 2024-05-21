@@ -1,3 +1,5 @@
+import './TaskInput.css'
+
 const TaskInput = ({ value, inputHandler, submitHandler }) => {
   return (
     <form id="task-form" onSubmit={submitHandler} autoComplete="off">

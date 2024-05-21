@@ -1,10 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Task from "./Task"
 import { faRedo, faTrash } from "@fortawesome/free-solid-svg-icons"
+
+import "./TaskTrash.css"
 
 const DeletedTask = ({ task, restoreHandler, deleteHandler }) => {
   return (
-    <div className="task-container trash-container">
+    <div className="trash-container">
       <p>{task.name}</p>
       <div className="modifiers">
         <span onClick={() => restoreHandler(task.id)} className="restore">

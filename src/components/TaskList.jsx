@@ -1,5 +1,7 @@
 import Task from "./Task"
 
+import './TaskList.css'
+
 const TaskList = ({
   tasks, checkHandler, removeHandler, importanceHandler,
   infoHandler

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars, faHouse, faStar, faTrashAlt, faCheck, faCheckCircle } from "@fortawesome/free-solid-svg-icons"
+import "./Navigation.css"
 
 const Navigation = ({
   searchVal,

@@ -1,0 +1,87 @@
+@import url('../App.css');
+
+.task-container {
+  margin-bottom: 0;
+  background-color: var(--secondary);
+  padding: 20px;
+  font-size: 1.2em;
+  border-radius: 10px;
+  width: 95%;
+  display: flex;
+  align-items: center;
+  animation: show 0.2s linear;
+
+  &:hover {
+    transition: all 0.5s;
+    background-color: var(--secondary-bright);
+  }
+
+  p {
+    word-wrap: break-word;
+    word-break: break-all;
+    width: 90%;
+    margin: 0 10px;
+    color: var(--icon-default);
+  }
+
+  input[type="checkbox"] {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    cursor: pointer;
+    border: 1px solid grey;
+    outline: none;
+    appearance: none;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: var(--primary);
+    }
+
+    &:checked {
+      clip-path: circle(50% at 50% 50%);
+      appearance: auto;
+      accent-color: var(--accent);
+    }
+  }
+}
+
+.modifiers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  color: var(--icon-default);
+}
+
+.star-icon:hover {
+  color: var(--accent-darker);
+  cursor: pointer;
+}
+
+.trash-icon {
+  margin-left: 3.5px;
+
+  &:hover {
+    color: var(--trash);
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 600px) {
+  .modifiers {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

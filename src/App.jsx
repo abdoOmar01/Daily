@@ -165,7 +165,7 @@ const App = () => {
     t.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
-    <div className="outer-container">
+    <div data-theme={darkMode ? 'dark' : 'light'} className="outer-container">
       <Navigation
         searchVal={filter}
         searchHandler={handleFilterChange}

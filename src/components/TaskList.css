@@ -1,0 +1,17 @@
+@import url('../App.css');
+
+.task-list {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 2%;
+  height: 80%;
+  overflow-y: auto;
+  scrollbar-color: var(--secondary) var(--primary);
+  scrollbar-width: 10px;
+}
+
+@media (max-width: 800px) {
+  .task-list {
+    height: 70%;
+  }
+}

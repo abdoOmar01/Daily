@@ -1,0 +1,60 @@
+@import url('../App.css');
+
+.trash-container {
+  margin-bottom: 0;
+  background-color: var(--secondary);
+  padding: 20px;
+  font-size: 1.2em;
+  border-radius: 10px;
+  width: 95%;
+  display: flex;
+  align-items: center;
+  animation: show 0.2s linear;
+
+  &:hover {
+    transition: all 0.5s;
+    background-color: var(--secondary-bright);
+  }
+
+   p {
+    word-wrap: break-word;
+    word-break: break-all;
+    width: 90%;
+    margin: 0 10px;
+    color: lightgrey;
+    text-decoration: line-through;
+  }
+
+  .modifiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    color: var(--icon-default);
+
+    .restore:hover {
+      color: rgb(2, 170, 2);
+      cursor: pointer;
+    }
+
+    .delete {
+      margin-left: 10px;
+
+      &:hover {
+        color: red;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .trash-container .modifiers {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+
+    .delete {
+      margin: 0;
+    }
+  }
+}

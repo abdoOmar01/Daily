@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import convertDate from "../utils/date"
 
+import "./TaskInfo.css"
+
 const TaskInfo = ({ task, closeHandler, editHandler, renameHandler, dateHandler }) => {
   if (!task) return null
 

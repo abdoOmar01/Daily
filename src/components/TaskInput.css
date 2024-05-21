@@ -1,0 +1,26 @@
+@import url('../App.css');
+
+#task-form {
+  width: 100%;
+  margin: 0 auto 40px auto;
+}
+
+#task-input {
+  width: 94%;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid var(--primary);
+  font-size: 1.2rem;
+  outline: none;
+  background-color: var(--secondary);
+  color: #ffffff;
+  caret-color: var(--accent);
+
+  &:hover, &:focus {
+    background-color: var(--secondary-bright);
+  }
+
+  &::placeholder {
+    color: var(--accent);
+  }
+}
