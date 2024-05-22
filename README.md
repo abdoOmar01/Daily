@@ -4,6 +4,10 @@ A simple but elegant To-do list app.
 
 ## Web Design
 
+### Login/Registration Form
+![Web app login](/src/assets/screenshots/Screenshot_web_login.jpeg)
+![Mobile login](/src/assets/screenshots/Screenshot_mobile_login.jpeg)
+
 ### Dark Mode
 ![Web app preview](/src/assets/screenshots/Screenshot_web.jpeg)
 ![Web task info](/src/assets/screenshots/Screenshot_web_task_info.jpeg)

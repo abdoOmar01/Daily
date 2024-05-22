@@ -1,0 +1,94 @@
+@import url('../App.css');
+
+#login-page {
+    width: 100vw;
+    height: 100vh;
+    background-color: #212020;
+    overflow-y: auto;
+}
+
+#logo-banner {
+    width: 30%;
+    margin: 0 auto;
+
+    img {
+        width: 100%;
+    }
+}
+
+#forms-container {
+    background-color: var(--nav-background);
+    width: 50%;
+    margin: 0 auto 50px auto;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: var(--alt-text);
+
+    h2 {
+        border-bottom: 1px solid var(--alt-text);
+        padding-bottom: 10px;
+    }
+}
+
+#login-form, #register-form {
+    font-size: 1.2em;
+    padding-bottom: 20px;
+
+    div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 20px;
+    }
+
+    input {
+        padding: 10px;
+        border-radius: 5px;
+        color: var(--icon-default);
+        background-color: #212020;
+        outline: none;
+        border: none;
+        font-size: 0.9em;
+
+        &:focus {
+            background-color: #101010;
+        }
+    }
+
+    button {
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        font-weight: bold;
+        
+        &:hover {
+            cursor: pointer;
+            background-color: #1d1d1d
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    #logo-banner {
+        width: 50%;
+    }
+}
+
+@media (max-width: 600px) {
+    #logo-banner {
+        width: 80%;
+    }
+
+    #forms-container {
+        width: 90%;
+    }
+
+    #login-form, #register-form {
+        div {
+            grid-template-columns: 1fr;
+
+            label {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}

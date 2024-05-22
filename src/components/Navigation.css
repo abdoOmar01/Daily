@@ -94,6 +94,20 @@
   }
 }
 
+#log-out {
+  width: 100%;
+
+  button {
+    width: 80%;
+    padding: 20px;
+    margin-left: 8%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
 @media (max-width: 600px) {
   .nav-container {
     display: none;

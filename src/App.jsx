@@ -2,11 +2,16 @@ import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars } from "@fortawesome/free-solid-svg-icons"
 
-import TaskInfo from "./components/TaskInfo"
+import LoginForm from "./components/LoginForm"
+import Navigation from "./components/Navigation"
 import TaskInput from "./components/TaskInput"
 import TaskList from "./components/TaskList"
+import TaskInfo from "./components/TaskInfo"
 import TaskTrash from "./components/TaskTrash"
-import Navigation from "./components/Navigation"
+
+import loginService from "./services/login"
+import userService from "./services/users"
+import taskService from "./services/tasks"
 
 import defaultSort from "./utils/sort"
 
@@ -17,15 +22,65 @@ import "./App.css"
 
 const App = () => {
   const [tasks, setTasks] = useState([])
-  const [deleted, setDeleted] = useState([])
   const [property, setProperty] = useState('all')
   const [taskName, setTaskName] = useState('')
   const [filter, setFilter] = useState('')
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(true)
   const [width, setWidth] = useState(window.innerWidth)
   const [info, setInfo] = useState(null)
+  const [user, setUser] = useState(null)
+
+  const login = async (credentials) => {
+    try {
+      const user = await loginService.login(credentials)
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      setUser(user)
+      setTasks(user.tasks)
+      taskService.setToken(user.token)
+      return true
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const register = async (credentials) => {
+    try {
+      const user = await userService.register(credentials)
+      setUser(user)
+      taskService.setToken(user.token)
+      return true
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const logout = () => {
+    setUser(null)
+    window.localStorage.clear()
+  }
 
   useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      setTasks(user.tasks)
+      taskService.setToken(user.token)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!user) return
+    const fetchTasks = async () => {
+      const initialTasks = await taskService.getAll(user.id)
+      setTasks(initialTasks.sort(defaultSort))
+    }
+
+    fetchTasks()
+  }, [user])
+
+  useEffect(() => {
+    if (!user) return
     window.addEventListener('resize', () => setWidth(window.innerWidth))
     const nav = document.querySelector('.nav-container')
     const middle = document.querySelector('.middle-container')
@@ -48,43 +103,67 @@ const App = () => {
     }
   }, [width])
 
+  if (!user) {
+    return <LoginForm
+      theme={darkMode ? 'dark' : 'light'}
+      image={darkMode ? DailyDark : DailyLight}
+      loginHandler={login}
+      registerHandler={register} />  
+  }
+
   const handleTaskChange = (event) => setTaskName(event.target.value)
   const handleFilterChange = (event) => setFilter(event.target.value)
 
-  const handleCheck = (id) => {
-    const index = tasks.findIndex(t => t.id === id)
-    const copy = [...tasks]
-    copy[index] = { ...tasks[index], done: !tasks[index].done }
-    copy.sort(defaultSort)
-    setTasks(copy)
+  const handleCheck = async (id) => {
+    const task = tasks.find(t => t.id === id)
+    try {
+      const updatedTask = await taskService.update(id,
+          { ...task, done: !task.done })
+      setTasks(tasks.map(t => t.id === id ? updatedTask : t).sort(defaultSort))
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  const addTask = (event) => {
+  const addTask = async (event) => {
     event.preventDefault()
     const taskObj = {
-      id: Math.floor(Math.random() * 1000000),
-      dateCreated: new Date(),
-      name: taskName,
-      done: false,
-      important: false,
-      dueDate: new Date(),
-      category: 'default'
+      name: taskName
     }
-    setTasks(tasks.concat(taskObj))
-    setTaskName('')
-    handleShow('all')
+    
+    try {
+      const createdTask = await taskService.create(taskObj)
+      setTasks(tasks.concat(createdTask))
+      setTaskName('')
+      handleShow('all')
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  const removeTask = (id) => {
+  const removeTask = async (id) => {
     const task = tasks.find(t => t.id === id)
-    setTasks(tasks.filter(t => t.id !== id))
-    setDeleted(deleted.concat(task))
+    try {
+      const deletedTask = await taskService.update(id, {
+        ...task, deleted: true
+      })
+      setTasks(tasks.map(t => t.id === id ? deletedTask : t))
+      if (info.id === id) toggleInfo(id)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  const toggleImportance = (id) => {
+  const toggleImportance = async (id) => {
     const task = tasks.find(t => t.id === id)
-    const changedTask = { ...task, important: !task.important }
-    setTasks(tasks.map(t => t.id === id ? changedTask : t))
+    try {
+      const updatedTask = await taskService.update(id, {
+        ...task, important: !task.important
+      })
+      setTasks(tasks.map(t => t.id === id ? updatedTask : t))
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const toggleNavigation = () => {
@@ -124,44 +203,60 @@ const App = () => {
     setInfo({ ...info, name: event.target.value })
   }
 
-  const renameTask = (event) => {
+  const renameTask = async (event) => {
     event.preventDefault()
-    setTasks(tasks.map(t => t.id === info.id ? { ...t, name: info.name } : t))
+    const renamedTask = await taskService.update(info.id, { ...info })
+    setTasks(tasks.map(t => t.id === info.id ? renamedTask : t))
   }
 
-  const handleDateChange = (event) => {
+  const handleDateChange = async (event) => {
     setInfo({ ...info, dueDate: event.target.value })
-    setTasks(tasks.map(t => t.id === info.id ? { ...t, dueDate: event.target.value } : t))
+    const updatedTask = await taskService.update(info.id, {
+      ...info, dueDate: new Date(event.target.value).toISOString()
+    })
+    setTasks(tasks.map(t => t.id === info.id ? updatedTask : t))
   }
 
   const handleShow = (prop) => {
     setProperty(prop)
     document.querySelectorAll('.option').forEach(p => p.style.background = 'none')
-    document.querySelector(`.option.${prop}`).style.background =
-      prop === 'trash'
+    document.querySelector(`.option.${prop === 'deleted' ? 'trash' : prop}`).style.background =
+      prop === 'deleted'
         ? 'var(--trash)'
         : 'var(--nav-highlight)' 
   }
 
-  const restoreTask = (id) => {
-    const task = deleted.find(t => t.id === id)
-    setDeleted(deleted.filter(t => t.id !== id))
-    setTasks(tasks.concat(task))
+  const restoreTask = async (id) => {
+    const task = tasks.find(t => t.id === id)
+    try {
+      const restoredTask = await taskService.update(id, {
+        ...task, deleted: false
+      })
+      setTasks(tasks.map(t => t.id === id ? restoredTask : t))
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  const deletePermanent = (id) => {
-    setDeleted(deleted.filter(t => t.id !== id))
+  const deletePermanent = async (id) => {
+    try {
+      await taskService.remove(id)
+      setTasks(tasks.filter(t => t.id !== id))
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const toggleDarkMode = () => setDarkMode(!darkMode)
 
   const tasksToShow = tasks.filter(t => {
-    return (property === 'all' ? true : t[property]) &&
+    return (property === 'all'
+      ? !t.deleted
+      : property !== 'deleted'
+        ? t[property] && !t.deleted
+        : t.deleted) &&
       t.name.toLowerCase().includes(filter.toLowerCase())
   })
-
-  const deletedTasksToShow = deleted.filter(t =>
-    t.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div data-theme={darkMode ? 'dark' : 'light'} className="outer-container">
@@ -171,7 +266,8 @@ const App = () => {
         navHandler={toggleNavigation}
         image={darkMode ? DailyDark : DailyLight}
         showHandler={handleShow}
-        modeHandler={toggleDarkMode} />
+        modeHandler={toggleDarkMode}
+        logoutHandler={logout} />
 
       <div className="middle-container">
         <div className="ham-menu">
@@ -180,9 +276,9 @@ const App = () => {
         </div>
         <TaskInput value={taskName} inputHandler={handleTaskChange}
           submitHandler={addTask} />
-        <h2>Tasks</h2>
-        {property === 'trash'
-          ? <TaskTrash tasks={deletedTasksToShow}
+        <h2>{user.name}'s Tasks</h2>
+        {property === 'deleted'
+          ? <TaskTrash tasks={tasksToShow}
               restoreHandler={restoreTask}
               deleteHandler={deletePermanent} />
           : <TaskList tasks={tasksToShow} checkHandler={handleCheck}

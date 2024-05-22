@@ -9,7 +9,8 @@ const Navigation = ({
   navHandler,
   image,
   showHandler,
-  modeHandler
+  modeHandler,
+  logoutHandler
  }) => {
   return (
     <div className="nav-container">
@@ -37,10 +38,14 @@ const Navigation = ({
           <p>Done</p>
         </div>
 
-        <div onClick={() => showHandler('trash')} className="option trash">
+        <div onClick={() => showHandler('deleted')} className="option trash">
           <FontAwesomeIcon className="op-icon trash-icon" icon={faTrashAlt} size="xl" />
           <p>Deleted</p>
         </div>
+      </div>
+
+      <div id="log-out">
+        <button onClick={logoutHandler}>Log out</button>
       </div>
     </div>
   )
