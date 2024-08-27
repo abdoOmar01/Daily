@@ -37,9 +37,9 @@ const App = () => {
       setUser(user)
       setTasks(user.tasks)
       taskService.setToken(user.token)
-      return true
+      return { error: null }
     } catch (e) {
-      console.log(e)
+      return { error: e.response.data.error }
     }
   }
 
@@ -48,9 +48,9 @@ const App = () => {
       const user = await userService.register(credentials)
       setUser(user)
       taskService.setToken(user.token)
-      return true
+      return { error: null }
     } catch (e) {
-      console.log(e)
+      return { error: e.response.data.error }
     }
   }
 
@@ -82,6 +82,7 @@ const App = () => {
   useEffect(() => {
     if (!user) return
     window.addEventListener('resize', () => setWidth(window.innerWidth))
+    toggleNavigation()
     const nav = document.querySelector('.nav-container')
     const middle = document.querySelector('.middle-container')
     const ham = document.querySelector('.ham-menu')

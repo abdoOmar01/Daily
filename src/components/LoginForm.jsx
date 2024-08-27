@@ -7,6 +7,8 @@ const LoginForm = ({ image, theme, loginHandler, registerHandler }) => {
   const [newName, setNewName] = useState('')
   const [newEmail, setNewEmail] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
+  const [registerError, setRegisterError] = useState('')
 
   const handleEmailChange = (event) => setEmail(event.target.value)
   const handlePasswordChange = (event) => setPassword(event.target.value)
@@ -14,20 +16,30 @@ const LoginForm = ({ image, theme, loginHandler, registerHandler }) => {
   const handleNewEmailChange = (event) => setNewEmail(event.target.value)
   const handleNewPasswordChange = (event) => setNewPassword(event.target.value)
 
-  const login = (event) => {
+  const login = async (event) => {
     event.preventDefault()
     const credentials = {
       email,
       password
     }
 
-    if (loginHandler(credentials)) {
+    const errorObj = await loginHandler(credentials)
+    if (!errorObj.error) {
       setEmail('')
       setPassword('')
+      setNewName('')
+      setNewEmail('')
+      setNewPassword('')
+      setLoginError('')
+      setRegisterError('')
+    } else {
+      setLoginError(errorObj.error)
+      setRegisterError('')
     }
+
   }
 
-  const register = (event) => {
+  const register = async (event) => {
     event.preventDefault()
     const credentials = {
       name: newName,
@@ -35,10 +47,18 @@ const LoginForm = ({ image, theme, loginHandler, registerHandler }) => {
       password: newPassword
     }
 
-    if (registerHandler(credentials)) {
+    const errorObj = await registerHandler(credentials)
+    if (!errorObj.error) {
+      setEmail('')
+      setPassword('')
       setNewName('')
       setNewEmail('')
       setNewPassword('')
+      setLoginError('')
+      setRegisterError('')
+    } else {
+      setRegisterError(errorObj.error)
+      setLoginError('')
     }
   }
 
@@ -54,14 +74,16 @@ const LoginForm = ({ image, theme, loginHandler, registerHandler }) => {
           <div>
             <label htmlFor="email">Email</label>
             <input type="email" id="email" value={email}
-              onChange={handleEmailChange} />
+              onChange={handleEmailChange} required />
           </div>
 
           <div>
             <label htmlFor="password">Password</label>
             <input type="password" id="password" value={password}
-              onChange={handlePasswordChange} />
+              onChange={handlePasswordChange} required />
           </div>
+          
+          <p className="error-message">{loginError}</p>
 
           <button type="submit">Login</button>
         </form>
@@ -69,21 +91,22 @@ const LoginForm = ({ image, theme, loginHandler, registerHandler }) => {
         <h2>Register</h2>
         <form onSubmit={register} id="register-form">
           <div>
-          <label htmlFor="name">Name</label>
+            <label htmlFor="name">Name</label>
             <input type="text" id="name" value={newName}
-              onChange={handleNameChange} />
+              onChange={handleNameChange} required />
           </div>
           <div>
             <label htmlFor="new-email">Email</label>
             <input type="email" id="new-email" value={newEmail}
-              onChange={handleNewEmailChange} />
+              onChange={handleNewEmailChange} required />
           </div>
 
           <div>
             <label htmlFor="new-password">Password</label>
             <input type="password" id="new-password" value={newPassword}
-              onChange={handleNewPasswordChange} />
+              onChange={handleNewPasswordChange} required />
           </div>
+            <p className="error-message">{registerError}</p>
 
           <button type="submit">Register</button>
         </form>

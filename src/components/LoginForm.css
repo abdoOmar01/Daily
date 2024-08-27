@@ -18,7 +18,7 @@
 
 #forms-container {
     background-color: var(--nav-background);
-    width: 50%;
+    width: 80%;
     margin: 0 auto 50px auto;
     border-radius: 5px;
     padding: 10px 20px;
@@ -73,7 +73,11 @@
     }
 }
 
-@media (max-width: 600px) {
+.error-message {
+    color: #ffffff;
+}
+
+@media (max-width: 800px) {
     #logo-banner {
         width: 80%;
     }
